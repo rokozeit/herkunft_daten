@@ -2,6 +2,12 @@ import requests
 from pathlib import Path
 import os.path
 
+###
+# French information on the approval number (german: Genusstauglichkeitskennzeichen)
+# Downloads the data from the link. Last checked 17th March 2021.
+# Link: https://fichiers-publics.agriculture.gouv.fr/dgal/ListesOfficielles/
+# The links might be broken by now.
+###
 
 url = 'https://fichiers-publics.agriculture.gouv.fr/dgal/ListesOfficielles/'
 

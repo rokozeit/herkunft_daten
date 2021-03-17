@@ -2,6 +2,11 @@ import requests
 from pathlib import Path
 import os.path
 
+####
+# Austrian information on the approval number (german: Genusstauglichkeitskennzeichen)
+# Downloads the data (PDF) from the different links. Last checked 17th March 2021.
+# The links might be broken by now.
+####
 
 url = 'http://www.statistik.at/ovis/pdf/'
 

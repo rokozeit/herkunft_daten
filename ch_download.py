@@ -3,7 +3,10 @@ import os.path
 from pathlib import Path
 
 ###
-# Data comming from https://www.blv.admin.ch/blv/en/home/lebensmittel-und-ernaehrung/rechts-und-vollzugsgrundlagen/bewilligung-und-meldung/listen-bewilligter-betriebe.html
+# Swizz information on the approval number (german: Genusstauglichkeitskennzeichen)
+# Downloads the data from the link. Last checked 17th March 2021.
+# The links might be broken by now.
+# Link: https://www.blv.admin.ch/blv/en/home/lebensmittel-und-ernaehrung/rechts-und-vollzugsgrundlagen/bewilligung-und-meldung/listen-bewilligter-betriebe.html
 ###
 
 url = 'https://kwk.blv.admin.ch/superglobal/wGlobal/scripts/php/bewilligungsliste/inc.list_to_csv.php?viewmode=csv&lang=en'
@@ -15,7 +18,7 @@ if(not os.path.exists(filepath)): # TODO check if it exists and is empty
     filename.write_bytes(r.content)
 
 ####
-# The current version contains some stupid headings. I just remove it.
+# The current version of the tables contains some stupid headings. I just remove it.
 ####
 
 a_file = open(filepath, "r")

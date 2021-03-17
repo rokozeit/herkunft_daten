@@ -1,6 +1,13 @@
 import pandas as pd
 import sqlite3
 
+###
+# French information on the approval number (german: Genusstauglichkeitskennzeichen)
+# Currently I do not have a download script due to the stupid way they provide the data.
+# Parses the tables in the downloaded files.
+# Adds the content to the sqlite db as table 'fr'.
+###
+
 cnx = sqlite3.connect('db.sqlite')
 dfs = []
 

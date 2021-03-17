@@ -3,10 +3,12 @@ import pandas as pd
 import sqlite3
 
 #######
+# Parses the tables in the PDF files downloaded with at_download.py and
+# Adds the content to the sqlite db as table 'at'.
 #
-# Install GhostScript (https://www.ghostscript.com/) first 
-# Then install camelot (pip install camelot-py)
-#
+# It uses the package camelot to do the parsing: 
+#  - Install GhostScript (https://www.ghostscript.com/) first.
+#  - Then install camelot (pip install camelot-py)
 #######
 
 cnx = sqlite3.connect('db.sqlite')

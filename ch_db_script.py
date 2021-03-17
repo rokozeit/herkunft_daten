@@ -2,7 +2,9 @@ import pandas
 import sqlite3
 
 ###
-# Data comming from https://www.blv.admin.ch/blv/en/home/lebensmittel-und-ernaehrung/rechts-und-vollzugsgrundlagen/bewilligung-und-meldung/listen-bewilligter-betriebe.html
+# Parses the tables in the csv files downloaded with ch_download.py and
+# Adds the content to the sqlite db as table 'at'.
+# Link https://www.blv.admin.ch/blv/en/home/lebensmittel-und-ernaehrung/rechts-und-vollzugsgrundlagen/bewilligung-und-meldung/listen-bewilligter-betriebe.html
 ###
 
 cnx = sqlite3.connect('db.sqlite')
