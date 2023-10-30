@@ -7,9 +7,8 @@ import sqlite3
 # 
 # Link: https://apps2.bvl.bund.de/bltu/app/process/bvl-btl_p_veroeffentlichung?execution=e1s2
 # 
-# First download the file from the Link. The links might be broken by now. Last checked 17th March 2021
-# The version I downloaded (full version) contained some errors. They used semicolon in the individual strings
-# without quoting even though they used them as separators. This needs to be fixed first.
+# First download the file from the Link. The links might be broken by now. Last checked 30th October 2023
+# The version I downloaded (full version) contained some errors. This needs to be fixed first.
 #
 # Parses the tables in the downloaded and fixed file.
 # Adds the content to the sqlite db as table 'de'.

@@ -11,3 +11,9 @@ I created an app that let's you quickly identify manufacturer by selecting the c
 The python scripts here download the content and add them to a sqlite data base. Due to usage rights I did not include the files nor the data base.
 
 Instructions are given as comment in the individual python files.
+
+The first letters indicate the country: `de` (Germany), `at` (Austria), ...
+
+Usually there is a file called `at_download.py` which is a download script for the content and a file called `at_db_script.py` which parses the downloaded file and writes the content in the sqlite db.
+
+There was an issue with Python 3.12 and the `at_db_script.py` using the library camelot. I could not get it running. With 3.11 it worked. 

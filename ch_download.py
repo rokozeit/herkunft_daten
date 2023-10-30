@@ -4,7 +4,7 @@ from pathlib import Path
 
 ###
 # Swizz information on the approval number (german: Genusstauglichkeitskennzeichen)
-# Downloads the data from the link. Last checked 17th March 2021.
+# Downloads the data from the link. Last checked 30th October 2023.
 # The links might be broken by now.
 # Link: https://www.blv.admin.ch/blv/en/home/lebensmittel-und-ernaehrung/rechts-und-vollzugsgrundlagen/bewilligung-und-meldung/listen-bewilligter-betriebe.html
 ###

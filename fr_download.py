@@ -1,12 +1,13 @@
 import requests
 from pathlib import Path
-import os.path
 
 ###
 # French information on the approval number (german: Genusstauglichkeitskennzeichen)
-# Downloads the data from the link. Last checked 17th March 2021.
+# Downloads the data from the link. Last checked 30th October 2023.
 # Link: https://fichiers-publics.agriculture.gouv.fr/dgal/ListesOfficielles/
 # The links might be broken by now.
+# I had to add ', verify = False' to re request due to some certificate error.#
+# However, this is not recomended. It is a hack.
 ###
 
 url = 'https://fichiers-publics.agriculture.gouv.fr/dgal/ListesOfficielles/'
@@ -20,8 +21,8 @@ files = ['SSA1_ACTIV_GEN.txt', 'SSA1_VIAN_ONG_DOM.txt', 'SSA1_VIAN_COL_LAGO.txt'
 
 
 for file in files:
-    if(os.path.exists('fr/' + file)):
-        continue
-    r = requests.get(url+file, allow_redirects=True)
+    # I had to add ', verify = False' to re request due to some certificate error.#
+    # However, this is not recomended. It is a hack.
+    r = requests.get(url+file, allow_redirects=True, verify = False)
     filename = Path('fr/' + file)
     filename.write_bytes(r.content)

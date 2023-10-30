@@ -10,11 +10,12 @@ import sqlite3
 #
 # Parses the tables in the downloaded files.
 # Adds the content to the sqlite db as table 'it'.
+# Unfortunatly they encode their page in cp1252 (Windows 1252).
 ###
 
 pd.options.mode.chained_assignment = None 
 tables = pd.read_html('http://www.salute.gov.it/consultazioneStabilimenti/ConsultazioneStabilimentiServlet?ACTION=gestioneSingolaCategoria&idNormativa=2',
-skiprows=[0],header=0)
+skiprows=[0],header=0, encoding="cp1252")
 
 df = tables[0][['APPROVAL NUMBER', 'NAME', 'TOWN/REGION']]
 

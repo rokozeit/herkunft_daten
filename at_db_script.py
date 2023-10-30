@@ -2,13 +2,19 @@ import camelot
 import pandas as pd
 import sqlite3
 
+
 #######
 # Parses the tables in the PDF files downloaded with at_download.py and
 # Adds the content to the sqlite db as table 'at'.
 #
-# It uses the package camelot to do the parsing: 
+# It uses the PDF parser package camelot-py (NOT camelot) to do the parsing: 
+#  - https://pypi.org/project/camelot-py/
 #  - Install GhostScript (https://www.ghostscript.com/) first.
 #  - Then install camelot (pip install camelot-py)
+# Then I had a ModuleNotfoundError: No module named 'cv2' issue and solved it with
+#  - pip install opencv-python
+# Currently not working with Python 3.12
+#  
 #######
 
 cnx = sqlite3.connect('db.sqlite')
@@ -24,6 +30,8 @@ files = ['I1.pdf', 'II2.pdf', 'III3.pdf', 'IV4.pdf', 'V5.pdf', 'VI6.pdf', 'VII7.
 
 
 for file in files:
+ #   tab = tabula.read_pdf('at/' + file, pages='all')
+ #   print(tab)
     tables = camelot.read_pdf('at/' + file, pages='all')
 
     for table in tables:

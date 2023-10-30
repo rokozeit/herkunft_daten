@@ -4,11 +4,12 @@ import os.path
 
 ####
 # Austrian information on the approval number (german: Genusstauglichkeitskennzeichen)
-# Downloads the data (PDF) from the different links. Last checked 17th March 2021.
-# The links might be broken by now.
+# The information is distributed over different PDF files. This script downloads the files.
+# Last checked 30th October 2023.
+# The links might be broken by now. Last time I checked they changed the link. So I updated it.
 ####
 
-url = 'http://www.statistik.at/ovis/pdf/'
+url = 'https://vis.statistik.at/fileadmin/ovis/pdf/'
 
 files = ['I1.pdf', 'II2.pdf', 'III3.pdf', 'IV4.pdf', 'V5.pdf', 'VI6.pdf', 'VII7.pdf',
  'VIII8.pdf', 'IX9.pdf', 'X10.pdf', 'XI11.pdf', 'XII56.pdf', 'XIII12.pdf',
