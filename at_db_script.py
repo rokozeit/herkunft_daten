@@ -18,6 +18,11 @@ import sqlite3
 #######
 
 cnx = sqlite3.connect('db.sqlite')
+
+cursor = cnx.cursor()
+cursor.execute("DROP TABLE IF EXISTS at")
+cnx.commit()
+
 dfs = []
 
 files = ['I1.pdf', 'II2.pdf', 'III3.pdf', 'IV4.pdf', 'V5.pdf', 'VI6.pdf', 'VII7.pdf',
@@ -50,3 +55,4 @@ dfall.drop_duplicates(subset ="approvalNo",
 
 # dfall.to_csv('foo.csv')
 dfall.to_sql('at', cnx)
+cnx.close()

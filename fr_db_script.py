@@ -9,6 +9,11 @@ import sqlite3
 ###
 
 cnx = sqlite3.connect('db.sqlite')
+
+cursor = cnx.cursor()
+cursor.execute("DROP TABLE IF EXISTS fr")
+cnx.commit()
+
 dfs = []
 
 files = ['SSA1_ACTIV_GEN.txt', 'SSA1_VIAN_ONG_DOM.txt', 'SSA1_VIAN_COL_LAGO.txt', 'SSA1_VIAN_GIB_ELEV.txt',
@@ -38,3 +43,4 @@ dfall.drop_duplicates(subset ="approvalNo",
                      keep = False, inplace = True) 
 
 dfall.to_sql('fr', cnx)
+cnx.close()
