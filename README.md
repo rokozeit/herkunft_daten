@@ -24,4 +24,6 @@ Currently, the countries - Germany (DE), Austria (AT), Switzerland (CH), Italy (
 
 Having created the data base you can use it in the [app](https://github.com/rokozeit/herkunft).
 
+The data base format is as follow: each country has it's own table. The columns are: *aproovalNo*, *approvalNoOld*, *name*, *address*, *comment*.
+
 *__Just because a product comes from the same manufacturer does not mean it is the same product.__*

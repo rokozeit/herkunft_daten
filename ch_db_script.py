@@ -18,10 +18,13 @@ cnx.commit()
 df = pandas.read_csv('ch/list.csv', sep=';', quotechar='"', decimal=',', encoding='ansi',
     usecols=['Permit Number', 'Company Name', 'Address', 'Zipcode', 'City/Region', 'Remark'])
 df = df.rename(columns={"Permit Number": "approvalNo", "Company Name": "name", 
-    "Address": "street", "Zipcode": "zipcode", "City/Region" : "place", "Remark" : "comment" })
-df['address'] = df['street'] + ', ' + str(df['zipcode']) + ' ' + str(df['place'])
+    "Address": "street", "Zipcode": "zipcode", "City/Region" : "city", "Remark" : "comment" })
+df['address'] = df['street'].astype(str) + ', ' + df['zipcode'].astype(str) + ' ' + df['city'].astype(str)
+
 df = df.drop(df.columns[[2, 3, 4]], axis=1)
 df = df.drop_duplicates(subset=['approvalNo'])
+
+
 df['approvalNoOld'] = ""
 
 df.to_sql('ch', cnx)
