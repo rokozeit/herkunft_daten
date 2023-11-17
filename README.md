@@ -8,8 +8,7 @@ In order to identify the producer of products of animal origin, the EU has intro
 
 I created an [app](https://github.com/rokozeit/herkunft) that let you identify manufacturer by selecting the country and the approval number.
 
-I do not have an agreement with the authorities managing and maintaining the data. So I cannot provide the data or the app with the data.
-
+I do not have an agreement with the authorities managing and maintaining the data to use the data. So I cannot provide the data or the app with the data. You unfortunatly need to do this part of the magig yourself.
 
 The python scripts provided here download the content and add them to a sqlite data base. Due to usage rights I did not include the files nor the data base.
 
