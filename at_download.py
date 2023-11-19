@@ -9,6 +9,10 @@ import os.path
 # The links might be broken by now. Last time I checked they changed the link. So I updated it.
 ####
 
+isExist = os.path.exists("at")
+if not isExist:
+   os.makedirs("at")
+
 url = 'https://vis.statistik.at/fileadmin/ovis/pdf/'
 
 files = ['I1.pdf', 'II2.pdf', 'III3.pdf', 'IV4.pdf', 'V5.pdf', 'VI6.pdf', 'VII7.pdf',
@@ -18,7 +22,6 @@ files = ['I1.pdf', 'II2.pdf', 'III3.pdf', 'IV4.pdf', 'V5.pdf', 'VI6.pdf', 'VII7.
  'XIV34.pdf', 'XV35.pdf', '157.pdf', '241.pdf', '342.pdf', '443.pdf', '544.pdf',
  '645.pdf', '746.pdf', '847.pdf', '948.pdf', '1049.pdf', '1150.pdf', '1251.pdf',
  '1352.pdf', '1453.pdf', '1554.pdf', '1655.pdf']
-
 
 for file in files:
     if(os.path.exists('at/' + file)):

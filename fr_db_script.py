@@ -24,7 +24,7 @@ files = ['SSA1_ACTIV_GEN.txt', 'SSA1_VIAN_ONG_DOM.txt', 'SSA1_VIAN_COL_LAGO.txt'
 
 
 for file in files:
-    print('FILE ' + file)
+    # print('FILE ' + file)
 
     # in SSA1_VIAN_ONG_DOM.txt there are lines with 11 instead of 10 rows. I try to ignore the 11th
     cols = pd.read_csv('fr/' + file, nrows=1).columns

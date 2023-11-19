@@ -1,5 +1,6 @@
 import requests
 from pathlib import Path
+import os.path
 
 ###
 # French information on the approval number (german: Genusstauglichkeitskennzeichen)
@@ -10,6 +11,10 @@ from pathlib import Path
 # However, this is not recomended. It is a hack.
 ###
 
+isExist = os.path.exists("fr")
+if not isExist:
+   os.makedirs("fr")
+
 url = 'https://fichiers-publics.agriculture.gouv.fr/dgal/ListesOfficielles/'
 
 files = ['SSA1_ACTIV_GEN.txt', 'SSA1_VIAN_ONG_DOM.txt', 'SSA1_VIAN_COL_LAGO.txt', 'SSA1_VIAN_GIB_ELEV.txt',
@@ -17,8 +22,6 @@ files = ['SSA1_ACTIV_GEN.txt', 'SSA1_VIAN_ONG_DOM.txt', 'SSA1_VIAN_COL_LAGO.txt'
     'SSA4B_AS_CE_PRODPECHE_COV.txt', 'SSA1_LAIT.txt', 'SSA1_OEUF.txt', 'SSA1_GREN_ESCARG.txt',
     'SSA4_AGSANGREXPR_PRV.txt', 'SSA4_AGR_ESVEBO_PRV.txt', 'SSA4_AGSANGELAT_PRV.txt', 'SSA4_AGSANCOLL_PRV.txt',
     'SSA_PROD_RAFF.txt', 'SSA4_ASCCC_PRV.txt']
-
-
 
 for file in files:
     # I had to add ', verify = False' to re request due to some certificate error.#

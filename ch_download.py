@@ -9,6 +9,10 @@ from pathlib import Path
 # Link: https://www.blv.admin.ch/blv/en/home/lebensmittel-und-ernaehrung/rechts-und-vollzugsgrundlagen/bewilligung-und-meldung/listen-bewilligter-betriebe.html
 ###
 
+isExist = os.path.exists("ch")
+if not isExist:
+   os.makedirs("ch")
+
 url = 'https://kwk.blv.admin.ch/superglobal/wGlobal/scripts/php/bewilligungsliste/inc.list_to_csv.php?viewmode=csv&lang=en'
 filepath = 'ch/list.csv'
 

@@ -1,0 +1,5 @@
+pandas
+camelot-py
+requests
+pathlib
+lxml

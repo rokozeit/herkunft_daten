@@ -1,5 +1,6 @@
 import pandas as pd
 import sqlite3
+import os.path
 
 ###
 # Italien information on the approval number (german: Genusstauglichkeitskennzeichen)
@@ -24,7 +25,7 @@ df["approvalNoOld"] = ""
 
 df = df.drop_duplicates(subset=['approvalNo'])
 
-print(df.head())
+# print(df.head())
 cnx = sqlite3.connect('db.sqlite')
 cursor = cnx.cursor()
 cursor.execute("DROP TABLE IF EXISTS it")
