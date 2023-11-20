@@ -66,6 +66,8 @@ Each table has the same columns:
 As stated, there is an [App](https://github.com/rokozeit/herkunft) (currently for Windows and Android).
 
 # Additinal information
+The EU provides a [list](https://food.ec.europa.eu/safety/biological-safety/food-hygiene/approved-eu-food-establishments/national-websites_en#list-of-eu-country-approved-establishments) of web pages to the country individual health mark information or lists. 
+
 Instructions are given as comment in the individual python scripts.
 
 The first letters indicate the country: `de` (Germany), `at` (Austria), ...
