@@ -1,6 +1,5 @@
 import pandas as pd
 import sqlite3
-# import pandas_read_xml as pdx
 from lxml import objectify
 
 ###
@@ -21,46 +20,44 @@ from lxml import objectify
 # Adds the content to the sqlite db as table 'de'.
 ###
 
-# Open DB
-cnx = sqlite3.connect('db.sqlite')
-cursor = cnx.cursor()
-# Delete table if it already exists
-cursor.execute("DROP TABLE IF EXISTS de")
-cnx.commit()
+try:
+    cnx = sqlite3.connect('db.sqlite')
+    cursor = cnx.cursor()
+    cursor.execute("DROP TABLE IF EXISTS de")
+    cnx.commit()
 
-# Parse the XML file
-xml_data = objectify.parse('de/export.xml')
+    # Parse the XML file
+    xml_data = objectify.parse('de/export.xml')
+    root = xml_data.getroot()
 
-root = xml_data.getroot();
+    data = []
 
-data = [];
+    # Extract the data for the pandas dataframe
+    for betrieb in root.getchildren():
+        name = str(betrieb.name)
+        address = f"{betrieb.strasse} {betrieb.hausnummer}, {betrieb.postleitzahl} {betrieb.ort}"
+        approvalNo = f"{betrieb.zulassungsnummer.bundesland} {betrieb.zulassungsnummer.nummer}"
+        approvalNoOld = str(betrieb.taetigkeit.alteZulassungsnummer)
+        comment = str(betrieb.taetigkeit.bemerkung)
+        data.append([name, address, approvalNo, approvalNoOld, comment])
 
-# Extract the data for the pandas dataframe
-for betrieb in root.getchildren():
-    name = str(betrieb.name)
-    address = betrieb.strasse + ' ' + str(betrieb.hausnummer) + ', ' + str(betrieb.postleitzahl) + ' ' + betrieb.ort
-    approvalNo = betrieb.zulassungsnummer.bundesland + ' ' + str(betrieb.zulassungsnummer.nummer)
-    approvalNoOld = str(betrieb.taetigkeit.alteZulassungsnummer)
-    comment = str(betrieb.taetigkeit.bemerkung)
-    data.append([name, address, approvalNo, approvalNoOld, comment])
+    cols = ['name', 'address', 'approvalNo', 'approvalNoOld', 'comment']
 
-cols=['name', 'address', 'approvalNo', 'approvalNoOld', 'comment']
+    df = pd.DataFrame(data, columns=cols)
 
-df = pd.DataFrame(data)
-df.columns = cols 
+    # remove possible duplicates
+    df = df.drop_duplicates(subset=['approvalNo'])
 
-### Former csv code - however, since the csv had errors, now I choose xml
-# df = pandas.read_csv('de/export.csv', sep=';', quotechar='"', decimal=',', encoding='ansi',
-#     usecols=['Name des Betriebs ', 'Straße / Haus-Nr.', 'Ort', 'Alte Zulassungs-nummern', 'Neue Zulassungsnummer', 'Bemerkungen'])
-# df = df.rename(columns={"Name des Betriebs ": "name", "Straße / Haus-Nr.": "street", 
-#     "Alte Zulassungs-nummern": "approvalNoOld", "Neue Zulassungsnummer": "approvalNo", "Ort" : "place", "Bemerkungen" : "comment" })
-# df['address'] = df['street'] + ', ' + df['place']
-# df = df.drop(df.columns[[1, 2]], axis=1)
+    # write to database
+    df.to_sql('de', cnx, if_exists='replace', index=False)
 
-# remove possible duplicates
-df = df.drop_duplicates(subset=['approvalNo'])
+    cnx.close()
 
-# write to data base
-df.to_sql('de', cnx)
-
-cnx.close()
+except FileNotFoundError as file_not_found_error:
+    print(f"File not found: {file_not_found_error}")
+except pd.errors.EmptyDataError as empty_data_error:
+    print(f"No data found in the XML file: {empty_data_error}")
+except sqlite3.Error as sqlite_error:
+    print(f"SQLite error: {sqlite_error}")
+except Exception as ex:
+    print(f"An unexpected error occurred: {ex}")

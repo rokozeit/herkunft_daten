@@ -1,11 +1,17 @@
 print("> DB creation started.")
 print(">> Download started. This may take a while.")
 print(">>> Started downloading")
-import at_download
+from at_download import download_at
+download_at()
+
 print(">>> AT download finished")
-import ch_download
+from ch_download import download_ch
+download_ch()
+
 print(">>> CH download finished")
-import fr_download
+from fr_download import download_fr
+download_fr()
+
 print(">>> FR download finished")
 print(">> Download finished")
 
