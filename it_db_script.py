@@ -1,6 +1,5 @@
 import pandas as pd
 import sqlite3
-import os.path
 
 ###
 # Italien information on the approval number (german: Genusstauglichkeitskennzeichen)

@@ -11,14 +11,15 @@ from helper import check_url
 ###
 
 def download_ch():
+
+    # file to write the data to
+    file_path = 'ch/list.csv'
+    
     # Create 'ch' directory if it doesn't exist
     os.makedirs("ch", exist_ok=True)
 
     # url to the data
     url = 'https://kwk.blv.admin.ch/superglobal/wGlobal/scripts/php/bewilligungsliste/inc.list_to_csv.php?viewmode=csv&lang=en'
-
-    # file to write data
-    file_path = 'ch/list.csv'
 
     url_exists = check_url(url)
 

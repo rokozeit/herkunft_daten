@@ -16,17 +16,30 @@ Currently, the countries - Germany (DE), Austria (AT), Switzerland (CH), Italy (
 
 # Requirements / Known issues
 ## Python version
-I am using the python library `camelot-py`. I had some issues with version `0.11.0` and python `3.12`. It worked with python `3.11`.
+I am using the python library `camelot-py` to process the pdf files from Austria. I had some issues with version `0.11.0` and python `3.12`. It worked with python `3.12.1` or `3.11.x`.
 
-## Dependencies
+## Additional software
+In order to do the processing of the pdf file using [camelot-py](https://camelot-py.readthedocs.io/en/master/) you need to install ghostscript first as described [here](https://camelot-py.readthedocs.io/en/master/user/install-deps.html#install-deps).
+
+## Python Package-Dependencies
+Install the required packages e.g. like:
+
+    pip install -r requirements.txt
+
+See [requirements.txt](./requirements.txt)
+
 - [pandas](https://pandas.pydata.org/)
-- [camelot-py](https://camelot-py.readthedocs.io/en/master/)
+master/)
 - [requests](https://pypi.org/project/requests/)
 - [pathlib](https://docs.python.org/3/library/pathlib.html)
 - [lxml](https://lxml.de/)
-
+- [html5lib](https://pypi.org/project/html5lib/)
+- [beautifulsoup4](https://pypi.org/project/beautifulsoup4/)
+- [opencv-python](https://pypi.org/project/opencv-python/)
+- [ghostscript](https://pypi.org/project/ghostscript/)
+- [camelot-py](https://camelot-py.readthedocs.io/en/
 ## Runtime
-The download will take some time. However, processing the PDF files from Austria took quite a while, really. So if you do not need them, commment out the part in `run.py`.
+The download will take some time. However, processing the PDF files from Austria took quite a while as well, really. So if you do not need them, commment out the part in `run.py`.
 
 ## German data
 The German data cannot be downloaded by a script. So you need to download the data first (see below).
@@ -48,34 +61,33 @@ Most of the magic is done automatically within the script `run.py`. If you do no
 
 Run the script `run.py` e.g.:
 
-        > python run.py
+    python run.py
 
 As already stated, it will take a while especially if Austria is included.
 
 # Data format
-Each country has its own table. I am using coutry codes as table names.
+Each country has its own table. I am using coutry codes as table names. So the table for Germany is called `de`, the table for Austria is called `at` and so on.
 
 Each table has the same columns:
-- **name**: The name of the producer
-- **address**: The address - street-name number, postcode city - in my case
-- **approvalNo**: The actuall approval number of the EC identification and health marks
-- **approvalNoOld**: The old number (I think mainly in Germany)
-- **comment**: Some additional information
+- **name** *(Text)*: The name of the producer
+- **address** *(Text)*: The address - street-name number, postcode city - in this case - *however, any format would be ok. I am just handling this as a text field*.
+- **approvalNo** *(Text)*: The actuall approval number of the EC identification and health marks
+- **approvalNoOld** *(Text)*: The old number (I think this is used mainly in Germany)
+- **comment** *(Text)*: Some additional information if it exists.
 
-# Use and search the data
-As stated, there is an [App](https://github.com/rokozeit/herkunft) (currently for Windows and Android).
+# How to use and search the data
+As stated, there is an [App](https://github.com/rokozeit/herkunft) (currently for Windows and Android) you can use to search within the data.
 
 # Additinal information
-The EU provides a [list](https://food.ec.europa.eu/safety/biological-safety/food-hygiene/approved-eu-food-establishments/national-websites_en#list-of-eu-country-approved-establishments) of web pages to the country individual health mark information or lists. 
+The EU provides a [list](https://food.ec.europa.eu/safety/biological-safety/food-hygiene/approved-eu-food-establishments/national-websites_en#list-of-eu-country-approved-establishments) of web pages to the country individual health mark information. All are provided in different formats. So there is no one solution for it all.
 
-Instructions are given as comment in the individual python scripts.
+Further instructions on the processing of the different formats I am using are given as comment in the individual python scripts. so feel free to explore my solutions and find better once.
 
-The first letters indicate the country: `de` (Germany), `at` (Austria), ...
+The first letters of the scripts indicate the country code: `de` (Germany), `at` (Austria), ... . This is also used as table name in the sqlite database.
 
-Usually there is a file called `at_download.py` which is a download script for the content and a file called `at_db_script.py` which parses the downloaded file and writes the content in the sqlite db.
+Usually there is a file called `at_download.py` which is a download script for the content and a file called `at_db_script.py` which parses the downloaded file and populates the content in the sqlite db.
 
-There was an issue with Python 3.12 and the `at_db_script.py` using the library camelot. I could not get it running. With 3.11 it worked.
+There was an issue with Python 3.12 and the `at_db_script.py` using the library `camelot`. I could not get it running. With 3.11 and 3.12.1 it worked.
 
-Having created the data base you can use it in the [App](https://github.com/rokozeit/herkunft).
-
+Having created the data base you can use it in the [App](https://github.com/rokozeit/herkunft) (currently available for Windows and Android).
 

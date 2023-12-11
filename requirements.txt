@@ -1,5 +1,9 @@
 pandas
-camelot-py
 requests
 pathlib
 lxml
+html5lib
+beautifulsoup4
+opencv-python
+ghostscript
+camelot-py

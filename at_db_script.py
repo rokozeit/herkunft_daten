@@ -17,11 +17,6 @@ import sqlite3
 #  
 #######
 
-import camelot
-import pandas as pd
-import sqlite3
-
-
 try:
     cnx = sqlite3.connect('db.sqlite')
     cursor = cnx.cursor()
@@ -40,6 +35,8 @@ try:
     for file in files:
         try:
             tables = camelot.read_pdf('at/' + file, pages='all')
+            
+            print(f">>>> processing file at/{file}")
 
             for table in tables:
                 df = table.df.replace({r'\n': ' '}, regex=True)
@@ -57,8 +54,6 @@ try:
         dfall = pd.concat(dfs)
         # Remove duplicates based on 'approvalNo' column
         dfall.drop_duplicates(subset="approvalNo", keep=False, inplace=True)
-
-        print(dfall)
         
         # Write data to SQLite
         dfall.to_sql('at', cnx, if_exists='replace', index=False)
