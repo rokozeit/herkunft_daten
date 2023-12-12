@@ -11,7 +11,7 @@ from pathlib import Path
 # However, this is not recomended. It is a hack.
 ###
 
-def download_file(url: str, file_path: str):
+def download_file(base_url: str, file: str, file_path: str):
     """
     Downloads the contents of a file from a URL.
 
@@ -24,11 +24,11 @@ def download_file(url: str, file_path: str):
         OSError: If the local file cannot be written to.
     """
     try:
-        response = requests.get(url, allow_redirects=True, verify=False)
+        print(f"        downloading {file}")
+        response = requests.get(base_url + file, allow_redirects=True, verify=False)
         if response.status_code == 200:
             with open(file_path, "wb") as file:
                 file.write(response.content)
-            print(f"Downloaded: {file_path}")
         else:
             print(f"Failed to download: {file_path}. Status code: {response.status_code}")
     except requests.RequestException as e:
@@ -52,11 +52,10 @@ def download_files(base_url, files, directory):
         os.makedirs(directory, exist_ok=True)
 
         for file in files:
-            url = f"{base_url}/{file}"
             file_path = os.path.join(directory, file)
 
             if not os.path.exists(file_path):
-                download_file(url, file_path)
+                download_file(base_url, file, file_path)
             else:
                 print(f"File already exists: {file_path}")
 
@@ -66,7 +65,7 @@ def download_files(base_url, files, directory):
         print(f"An unexpected error occurred: {ex}")
 
 # Base url for the french information on approval numbers
-base_url = 'https://fichiers-publics.agriculture.gouv.fr/dgal/ListesOfficielles'
+base_url = 'https://fichiers-publics.agriculture.gouv.fr/dgal/ListesOfficielles/'
 
 # director to write the files
 directory = 'fr'
@@ -81,3 +80,9 @@ files = ['SSA1_ACTIV_GEN.txt', 'SSA1_VIAN_ONG_DOM.txt', 'SSA1_VIAN_COL_LAGO.txt'
 # start downloading files
 def download_fr():
     download_files(base_url, files, directory)
+
+def main():
+    download_fr()
+
+if __name__ == "__main__":
+    main()

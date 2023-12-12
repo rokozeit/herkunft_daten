@@ -1,4 +1,5 @@
 import requests
+import sqlite3
 
 def check_url(url: str) -> bool:
     """
@@ -16,5 +17,6 @@ def check_url(url: str) -> bool:
     try:
         response = requests.head(url)
         return response.status_code == 200  # Status code 200 indicates the URL exists
-    except requests.RequestException:
+    except requests.RequestException as ex:
+        print(f"An unexpected error occurred: {ex}")
         return False  # Any exception means the URL doesn't exist or is unreachable  # Any exception means the URL doesn't exist or is unreachable

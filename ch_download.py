@@ -77,3 +77,9 @@ def download_ch():
 
     except Exception as ex:
         print(f"An unexpected error occurred: {ex}")
+
+def main():
+    download_ch()
+
+if __name__ == "__main__":
+    main()

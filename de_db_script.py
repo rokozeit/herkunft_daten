@@ -21,55 +21,73 @@ import os
 # Adds the content to the sqlite db as table 'de'.
 ###
 
-try:
-    file = "./de/export.xml"
+def process_de():
+    """
+    Processes the DE file for health marks, extracts data from the XML, and writes it to a SQLite database.
 
-    # the file needs to exist before the script can be executed
-    if not os.path.isfile(file):
-        raise Exception(
-            f"File {file} not found. Please download the file first from https://bltu.bvl.bund.de/bltu/app/process/bvl-btl_p_veroeffentlichung?execution=e1s3"
-        )
+    Args:
+        None
 
-    # drop the the table if it already exists
-    cnx = sqlite3.connect("db.sqlite")
-    cursor = cnx.cursor()
-    cursor.execute("DROP TABLE IF EXISTS de")
-    cnx.commit()
+    Returns:
+        None
 
-    # Parse the XML file
-    xml_data = objectify.parse(file)
-    root = xml_data.getroot()
+    Raises:
+        FileNotFoundError: If the specified file is not found.
+        pd.errors.EmptyDataError: If no data is found in the XML file.
+        sqlite3.Error: If there is an error with the SQLite database.
+        Exception: If an unexpected error occurs.
+    """
+    try:
+        file = "./de/export.xml"
 
-    data = []
+        # the file needs to exist before the script can be executed
+        if not os.path.isfile(file):
+            raise Exception(
+                f"File {file} not found. Please download the file first from https://bltu.bvl.bund.de/bltu/app/process/bvl-btl_p_veroeffentlichung?execution=e1s3"
+            )
 
-    # Extract the data for the pandas dataframe
-    for betrieb in root.getchildren():
-        name = str(betrieb.name)
-        address = f"{betrieb.strasse} {betrieb.hausnummer}, {betrieb.postleitzahl} {betrieb.ort}"
-        approvalNo = (
-            f"{betrieb.zulassungsnummer.bundesland} {betrieb.zulassungsnummer.nummer}"
-        )
-        approvalNoOld = str(betrieb.taetigkeit.alteZulassungsnummer)
-        comment = str(betrieb.taetigkeit.bemerkung)
-        data.append([name, address, approvalNo, approvalNoOld, comment])
+        cnx = sqlite3.connect('db.sqlite')
 
-    cols = ["name", "address", "approvalNo", "approvalNoOld", "comment"]
+        # Parse the XML file
+        xml_data = objectify.parse(file)
+        root = xml_data.getroot()
 
-    df = pd.DataFrame(data, columns=cols)
+        data = []
 
-    # remove possible duplicates
-    df = df.drop_duplicates(subset=["approvalNo"])
+        # Extract the data for the pandas dataframe
+        for betrieb in root.getchildren():
+            name = str(betrieb.name)
+            address = f"{betrieb.strasse} {betrieb.hausnummer}, {betrieb.postleitzahl} {betrieb.ort}"
+            approvalNo = (
+                f"{betrieb.zulassungsnummer.bundesland} {betrieb.zulassungsnummer.nummer}"
+            )
+            approvalNoOld = str(betrieb.taetigkeit.alteZulassungsnummer)
+            comment = str(betrieb.taetigkeit.bemerkung)
+            data.append([name, address, approvalNo, approvalNoOld, comment])
 
-    # write to database
-    df.to_sql("de", cnx, if_exists="replace", index=False)
+        cols = ["name", "address", "approvalNo", "approvalNoOld", "comment"]
 
-    cnx.close()
+        df = pd.DataFrame(data, columns=cols)
 
-except FileNotFoundError as file_not_found_error:
-    print(f"File not found: {file_not_found_error}")
-except pd.errors.EmptyDataError as empty_data_error:
-    print(f"No data found in the XML file: {empty_data_error}")
-except sqlite3.Error as sqlite_error:
-    print(f"SQLite error: {sqlite_error}")
-except Exception as ex:
-    print(f"An unexpected error occurred: {ex}")
+        # remove possible duplicates
+        df = df.drop_duplicates(subset=["approvalNo"])
+
+        # write to database
+        df.to_sql("de", cnx, if_exists="replace", index=False)
+
+        cnx.close()
+
+    except FileNotFoundError as file_not_found_error:
+        print(f"File not found: {file_not_found_error}")
+    except pd.errors.EmptyDataError as empty_data_error:
+        print(f"No data found in the XML file: {empty_data_error}")
+    except sqlite3.Error as sqlite_error:
+        print(f"SQLite error: {sqlite_error}")
+    except Exception as ex:
+        print(f"An unexpected error occurred: {ex}")
+
+def main():
+    process_de()
+
+if __name__ == "__main__":
+    main()
