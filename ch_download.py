@@ -45,22 +45,25 @@ def download_ch():
             print("File already exists and is not empty.")
             return
             
-        # Clean unnecessary lines from the file
         with open(file_path, 'r') as file:
             lines = file.readlines()
         
+        # Clean up unnecessary lines from the file
         with open(file_path, 'w') as new_file:
             first_heading = True
             for line in lines:
+                # header
                 if line.startswith('"Permit Number"'):
                     if first_heading:
                         first_heading = False
                         new_file.write(line)
                     continue
 
+                # Remove unnecessary lines from the file
                 if line.startswith(('"Sektion', '\n', '"Result', '"Your search', '"Search')):
                     continue
-
+                
+                # last line
                 if line.startswith('"Codes and legends"'):
                     break
 

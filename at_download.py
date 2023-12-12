@@ -18,13 +18,14 @@ def download_at():
     # url path of the pdf files to be downloaded
     url = 'https://vis.statistik.at/fileadmin/ovis/pdf/'
 
+    # check if the url still exists
     url_exists = check_url(url)
 
     if not url_exists:
         print(f"The URL '{url}' does not exist or is unreachable.")
         return
 
-    # individual pdf files
+    # all individual pdf files
     files = ['I1.pdf', 'II2.pdf', 'III3.pdf', 'IV4.pdf', 'V5.pdf', 'VI6.pdf', 'VII7.pdf',
     'VIII8.pdf', 'IX9.pdf', 'X10.pdf', 'XI11.pdf', 'XII56.pdf', 'XIII12.pdf',
     'O20.pdf', 'I21.pdf', 'II22.pdf', 'III23.pdf', 'IV24.pdf', 'V25.pdf', 'VI26.pdf',
@@ -33,7 +34,7 @@ def download_at():
     '645.pdf', '746.pdf', '847.pdf', '948.pdf', '1049.pdf', '1150.pdf', '1251.pdf',
     '1352.pdf', '1453.pdf', '1554.pdf', '1655.pdf']
 
-    # Download files
+    # Download the pdf files
     for file in files:
         file_path = Path('at') / file  # Using Pathlib for better path handling
         if not file_path.is_file():  # Check if the file already exists

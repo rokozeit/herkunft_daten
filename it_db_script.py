@@ -14,23 +14,28 @@ import sqlite3
 ###
 
 try:
-    # Check if the file exists at the URL
-    url = 'http://www.salute.gov.it/consultazioneStabilimenti/ConsultazioneStabilimentiServlet?ACTION=gestioneSingolaCategoria&idNormativa=2'
-
-    pd.options.mode.chained_assignment = None 
-    tables = pd.read_html(url, skiprows=[0], header=0, encoding="cp1252")
-    df = tables[0][['APPROVAL NUMBER', 'NAME', 'TOWN/REGION']]
-
-    df.columns = ['approvalNo', 'name', 'address']
-    df["approvalNoOld"] = ""
-
-    df = df.drop_duplicates(subset=['approvalNo'])
-
+    # remove the table if it already exists
     cnx = sqlite3.connect('db.sqlite')
     cursor = cnx.cursor()
     cursor.execute("DROP TABLE IF EXISTS it")
     cnx.commit()
 
+    # the url of the italian health mark information
+    url = 'http://www.salute.gov.it/consultazioneStabilimenti/ConsultazioneStabilimentiServlet?ACTION=gestioneSingolaCategoria&idNormativa=2'
+
+    # create table from the html table
+    pd.options.mode.chained_assignment = None 
+    tables = pd.read_html(url, skiprows=[0], header=0, encoding="cp1252")
+    df = tables[0][['APPROVAL NUMBER', 'NAME', 'TOWN/REGION']]
+
+    # rename columns
+    df.columns = ['approvalNo', 'name', 'address']
+    df["approvalNoOld"] = ""
+
+    # remove duplicated rows
+    df = df.drop_duplicates(subset=['approvalNo'])
+
+    # write the table to the db
     df.to_sql('it', cnx, index=False, if_exists='replace')
     cnx.close()
 

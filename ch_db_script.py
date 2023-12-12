@@ -9,23 +9,33 @@ import sqlite3
 
 
 try:
+    # remove the table if it already exists
     db_connection = sqlite3.connect('db.sqlite')
     cursor = db_connection.cursor()
     cursor.execute("DROP TABLE IF EXISTS ch")
     db_connection.commit()
 
+    # read the csv file
     df = pd.read_csv('ch/list.csv', sep=';', quotechar='"', decimal=',', encoding='ansi',
                      usecols=['Permit Number', 'Company Name', 'Address', 'Zipcode', 'City/Region', 'Remark'])
 
+    # normalize the column names
     df = df.rename(columns={"Permit Number": "approvalNo", "Company Name": "name",
                             "Address": "street", "Zipcode": "zipcode", "City/Region": "city", "Remark": "comment"})
+    
+    # convert colums to one address column
     df['address'] = df['street'].astype(str) + ', ' + df['zipcode'].astype(str) + ' ' + df['city'].astype(str)
 
+    # remove unnecessary columns
     df = df.drop(['street', 'zipcode', 'city'], axis=1)
+
+    # remove duplicates
     df = df.drop_duplicates(subset=['approvalNo'])
 
+    # there is no approvalNoOld column in the csv file. So make all values empty
     df['approvalNoOld'] = ""
 
+    # write to the database
     df.to_sql('ch', db_connection, index=False, if_exists='replace')
 
 except FileNotFoundError as file_not_found_error:

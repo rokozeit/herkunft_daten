@@ -9,6 +9,7 @@ import sqlite3
 ###
 
 try:
+    # remove the table if it already exists
     cnx = sqlite3.connect('db.sqlite')
     cursor = cnx.cursor()
     cursor.execute("DROP TABLE IF EXISTS fr")
@@ -16,6 +17,7 @@ try:
 
     dfs = []
 
+    # all files to be processed
     files = ['SSA1_ACTIV_GEN.txt', 'SSA1_VIAN_ONG_DOM.txt', 'SSA1_VIAN_COL_LAGO.txt', 'SSA1_VIAN_GIB_ELEV.txt',
              'SSA1_VIAN_GIB_SAUV.txt', 'SSA1_VIAND_HACHE_VSM.txt', 'SSA4_AGSANPROBASEVDE_PRV.txt',
              'SSA4B_AS_CE_PRODCOQUI_COV.txt', 'SSA4B_AS_CE_PRODPECHE_COV.txt', 'SSA1_LAIT.txt', 'SSA1_OEUF.txt',
@@ -26,17 +28,24 @@ try:
         cols = pd.read_csv('fr/' + file, nrows=1).columns
 
         df = pd.read_csv('fr/' + file, dtype=str, usecols=cols)
+        # remove unnecessary columns
         df = df.drop(df.columns[[0, 2, 7, 8, 9]], axis=1)
+
+        # create one address column from the individual columns
         df['address'] = df['Adresse/Adress'] + ', ' + df['Code postal/Postal code'] + ' ' + df['Commune/Town']
         df = df.drop(df.columns[[2, 3, 4]], axis=1)
+
+        # rename the columns
         df.columns = ['approvalNo', 'name', 'address']
         df["approvalNoOld"] = ""
         dfs.append(df)
 
     dfall = pd.concat(dfs)
 
+    # remove duplicates based on 'approvalNo' column
     dfall.drop_duplicates(subset="approvalNo", keep=False, inplace=True)
 
+    # write data to SQLite
     dfall.to_sql('fr', cnx, index=False, if_exists='replace')
 
     cnx.close()

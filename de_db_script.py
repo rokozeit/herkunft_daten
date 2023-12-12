@@ -24,11 +24,13 @@ import os
 try:
     file = "./de/export.xml"
 
+    # the file needs to exist before the script can be executed
     if not os.path.isfile(file):
         raise Exception(
             f"File {file} not found. Please download the file first from https://bltu.bvl.bund.de/bltu/app/process/bvl-btl_p_veroeffentlichung?execution=e1s3"
         )
 
+    # drop the the table if it already exists
     cnx = sqlite3.connect("db.sqlite")
     cursor = cnx.cursor()
     cursor.execute("DROP TABLE IF EXISTS de")
