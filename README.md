@@ -91,3 +91,12 @@ There was an issue with Python 3.12 and the `at_db_script.py` using the library 
 
 Having created the data base you can use it in the [App](https://github.com/rokozeit/herkunft) (currently available for Windows and Android).
 
+# Data Sources
+
+| Country | Format | Link |
+| ------- | ------ | ---- |
+| at      | pdf    | https://vis.statistik.at/fileadmin/ovis/pdf/ |
+| ch      | html   | https://kwk.blv.admin.ch/superglobal/wGlobal/scripts/php/bewilligungsliste/inc.list_to_csv.php?viewmode=csv&lang=en |
+| de      | xml    | https://bltu.bvl.bund.de/bltu/app/process/bvl-btl_p_veroeffentlichung?execution=e1s2 |
+| fr      | pdf    | https://fichiers-publics.agriculture.gouv.fr/dgal/ListesOfficielles/ |
+| it      | html   | http://www.salute.gov.it/consultazioneStabilimenti/ConsultazioneStabilimentiServlet?ACTION=gestioneSingolaCategoria&idNormativa=2 |
